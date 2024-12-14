@@ -94,58 +94,58 @@ if st.button("Enviar"):
         # Agregar la consulta del usuario al historial
         st.session_state["messages"].append({"role": "user", "content": query})
 
-        # Generar embeddings y buscar en Pinecone
-        vector = generar_embeddings(query)
-        filter_conditions = {
-            "$and": [
-                {"texto": {"$exists": True}},
-                {"fuente": {"$exists": False}}
-            ]
-        }
+        with st.spinner("Su respuesta se está generando..."):
+            # Generar embeddings y buscar en Pinecone
+            vector = generar_embeddings(query)
+            filter_conditions = {
+                "$and": [
+                    {"texto": {"$exists": True}},
+                    {"fuente": {"$exists": False}}
+                ]
+            }
 
-        resultados = index.query(
-            vector=vector,
-            top_k=5,
-            include_values=True,
-            include_metadata=True,
-            filter=filter_conditions
-        )
+            resultados = index.query(
+                vector=vector,
+                top_k=5,
+                include_values=True,
+                include_metadata=True,
+                filter=filter_conditions
+            )
 
-        textos_similares = [res["metadata"]["texto"] for res in resultados["matches"]]
-        fragmentos_recuperados = " ".join(textos_similares)
+            textos_similares = [res["metadata"]["texto"] for res in resultados["matches"]]
+            fragmentos_recuperados = " ".join(textos_similares)
 
-        # Crear el prompt para el modelo generativo
-        prompt = f"""
-        Eres un chatbot inteligente especializado en Dermatología, concretamente en Psoriasis.
-        Tu misión es ayudar a los dermatólogos profesionales con las dudas o consultas que tengan acerca de tratamientos de Psoriasis.
-        Recibirás la siguiente información:
-        - Formulario con los datos del paciente
-        - Tratamiento generado para el paciente
-        - Fuente de datos que usarás para responder a la consulta del dermatólogo.
-        - Consulta del dermatólogo. 
+            # Crear el prompt para el modelo generativo
+            prompt = f"""
+            Eres un chatbot inteligente especializado en Dermatología, concretamente en Psoriasis.
+            Tu misión es ayudar a los dermatólogos profesionales con las dudas o consultas que tengan acerca de tratamientos de Psoriasis.
+            Recibirás la siguiente información:
+            - Formulario con los datos del paciente
+            - Tratamiento generado para el paciente
+            - Fuente de datos que usarás para responder a la consulta del dermatólogo.
+            - Consulta del dermatólogo. 
 
-        El formulario con los datos del paciente es el siguiente: {texto_formulario}.
+            El formulario con los datos del paciente es el siguiente: {texto_formulario}.
 
-        El tratamiento generado para el paciente es el siguiente: {texto_tratamiento}.
+            El tratamiento generado para el paciente es el siguiente: {texto_tratamiento}.
 
-        La fuente de datos que usarás para responder a la consulta del paciente es: {fragmentos_recuperados}.
+            La fuente de datos que usarás para responder a la consulta del paciente es: {fragmentos_recuperados}.
 
-        La consulta del dermatólogo, la cual debes responder es la siguiente: {query}.
+            La consulta del dermatólogo, la cual debes responder es la siguiente: {query}.
 
-        Por favor, responde a la consulta del dermatólogo. Debes ser amable, claro y preciso, no te inventes ninguna información y se fiel a la información que recibes.
-        Si consideras que la información que recibes no es suficiente para responder la consulta, comunícaselo al dermatólogo.
-        Si consideras que la consulta del dermatólogo no es clara o no sabes su intención, no dudes en preguntarle de nuevo.
+            Por favor, responde a la consulta del dermatólogo. Debes ser amable, claro y preciso, no te inventes ninguna información y se fiel a la información que recibes.
+            Si consideras que la información que recibes no es suficiente para responder la consulta, comunícaselo al dermatólogo.
+            Si consideras que la consulta del dermatólogo no es clara o no sabes su intención, no dudes en preguntarle de nuevo.
 
-        No te presentes ni te despidas en el mensaje, se directo, recuerda que eres un chatbot.
+            No te presentes ni te despidas en el mensaje, se directo, recuerda que eres un chatbot.
 
-        Si lo haces bien serás recompensado.
-        """
+            Si lo haces bien serás recompensado.
+            """
 
-        response = model.generate_content(prompt)
-        respuesta = response.candidates[0].content.parts[0].text
+            response = model.generate_content(prompt)
+            respuesta = response.candidates[0].content.parts[0].text
 
-        # Agregar la respuesta al historial
+        # Una vez finalizado el with st.spinner(), se quita el mensaje y se muestra la respuesta
         st.session_state["messages"].append({"role": "assistant", "content": respuesta})
-
         st.rerun()
 
