@@ -7,6 +7,8 @@ from pinecone import Pinecone, ServerlessSpec
 import openai
 from urllib.parse import unquote
 
+# Debug para secretos
+st.write("Contenido de secrets:", st.secrets)
 
 # Configura las claves de API (idealmente desde variables de entorno, no hardcodeadas)
 openai.api_key = st.secrets["openai_api_key"]
