@@ -7,13 +7,12 @@ from pinecone import Pinecone, ServerlessSpec
 import openai
 from urllib.parse import unquote
 
-# Debug para secretos
-st.write("Contenido de secrets:", st.secrets)
 
-# Configura las claves de API (idealmente desde variables de entorno, no hardcodeadas)
-openai.api_key = st.secrets["openai_api_key"]
-pinecone_api_key = "4f0ad966-b7af-4b4f-ad6f-171998969c1d"
-genai_api_key = "AIzaSyCPhvLFkQlhVyKsXsgR9EZi09QmmlN3V-k"
+
+# Configura las claves de API desde los secretos
+openai.api_key = st.secrets["general"]["openai_api_key"]
+pinecone_api_key = st.secrets["general"]["pinecone_api_key"]
+genai_api_key = st.secrets["general"]["genai_api_key"]
 
 # Configuración de la página
 st.set_page_config(page_title="Chatbot Psoriasis", layout="wide")
