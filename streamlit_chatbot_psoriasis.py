@@ -9,7 +9,7 @@ from urllib.parse import unquote
 
 
 # Configura las claves de API (idealmente desde variables de entorno, no hardcodeadas)
-openai.api_key = "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"
+openai.api_key = st.secrets["openai_api_key"]
 pinecone_api_key = "4f0ad966-b7af-4b4f-ad6f-171998969c1d"
 genai_api_key = "AIzaSyCPhvLFkQlhVyKsXsgR9EZi09QmmlN3V-k"
 
