@@ -44,21 +44,11 @@ st.title("¿Tiene alguna consulta sobre el tratamiento? ¡Cuéntanos!")
 params = st.query_params
 
 
-formulario_list = params.get('formulario', [])
-tratamiento_list = params.get('tratamiento', [])
+# Manejo de parámetros de la URL
+formulario_codificado = params.get('formulario', [None])[0]  # Usa None si no está definido
+tratamiento_codificado = params.get('tratamiento', [None])[0]  # Usa None si no está definido
 
-if formulario_list and len(formulario_list) > 0 and formulario_list[0] is not None:
-    formulario_codificado = formulario_list[0]
-else:
-    formulario_codificado = None
-
-if tratamiento_list and len(tratamiento_list) > 0 and tratamiento_list[0] is not None:
-    tratamiento_codificado = tratamiento_list[0]
-else:
-    tratamiento_codificado = None
-
-    
-
+# Decodificar los valores si existen, o asignar valores por defecto
 if formulario_codificado:
     texto_formulario = unquote(formulario_codificado)
 else:
@@ -69,6 +59,7 @@ if tratamiento_codificado:
 else:
     texto_tratamiento = "No se ha proporcionado tratamiento."
 
+# Debugging en consola
 print("El texto del formulario es: ", texto_formulario)
 print("El texto del tratamiento es: ", texto_tratamiento)
 
