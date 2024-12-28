@@ -40,13 +40,14 @@ model = genai.GenerativeModel("gemini-1.5-flash-latest")
 
 st.title("¿Tiene alguna consulta sobre el tratamiento? ¡Cuéntanos!")
 
-# Obtener parámetros de la URL
 params = st.query_params
 
+formulario_list = params.get("formulario", [])
+tratamiento_list = params.get("tratamiento", [])
 
-# Manejo de parámetros de la URL
-formulario_codificado = params.get('formulario', [None])[0]  # Usa None si no está definido
-tratamiento_codificado = params.get('tratamiento', [None])[0]  # Usa None si no está definido
+# Si viene vacío, asignamos None
+formulario_codificado = formulario_list[0] if formulario_list else None
+tratamiento_codificado = tratamiento_list[0] if tratamiento_list else None
 
 # Decodificar los valores si existen, o asignar valores por defecto
 if formulario_codificado:
