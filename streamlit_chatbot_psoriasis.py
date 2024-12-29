@@ -5,7 +5,7 @@ import os
 import fitz  # PyMuPDF
 from pinecone import Pinecone, ServerlessSpec
 import openai
-from urllib.parse import unquote
+import requests
 
 
 
@@ -42,27 +42,44 @@ st.title("¿Tiene alguna consulta sobre el tratamiento? ¡Cuéntanos!")
 
 params = st.query_params
 
-formulario_list = params.get("formulario", [])
-tratamiento_list = params.get("tratamiento", [])
+# 1) Recoger las URLs de los .txt que nos pasa Flask
+txt_formulario_url_list = params.get("txt_formulario_url", [])
+txt_tratamiento_url_list = params.get("txt_tratamiento_url", [])
 
-# Si viene vacío, asignamos None
-formulario_codificado = formulario_list[0] if formulario_list else None
-tratamiento_codificado = tratamiento_list[0] if tratamiento_list else None
+txt_formulario_url = txt_formulario_url_list[0] if txt_formulario_url_list else None
+txt_tratamiento_url = txt_tratamiento_url_list[0] if txt_tratamiento_url_list else None
 
-# Decodificar los valores si existen, o asignar valores por defecto
-if formulario_codificado:
-    texto_formulario = unquote(formulario_codificado)
-else:
-    texto_formulario = "No se ha proporcionado formulario."
+# 2) Definimos dos variables para el contenido
+texto_formulario = ""
+texto_tratamiento = ""
 
-if tratamiento_codificado:
-    texto_tratamiento = unquote(tratamiento_codificado)
-else:
-    texto_tratamiento = "No se ha proporcionado tratamiento."
 
-# Debugging en consola
-print("El texto del formulario es: ", texto_formulario)
-print("El texto del tratamiento es: ", texto_tratamiento)
+# 3) Si tenemos una URL de formulario, lo descargamos
+if txt_formulario_url:
+    try:
+        resp = requests.get(txt_formulario_url)
+        if resp.status_code == 200:
+            texto_formulario = resp.text
+        else:
+            st.warning(f"No se pudo descargar el formulario. Status: {resp.status_code}")
+    except Exception as e:
+        st.error(f"Error descargando el formulario: {e}")
+
+# 4) Si tenemos una URL de tratamiento, lo descargamos
+if txt_tratamiento_url:
+    try:
+        resp = requests.get(txt_tratamiento_url)
+        if resp.status_code == 200:
+            texto_tratamiento = resp.text
+        else:
+            st.warning(f"No se pudo descargar el tratamiento. Status: {resp.status_code}")
+    except Exception as e:
+        st.error(f"Error descargando el tratamiento: {e}")
+
+# Debug
+st.write("**Formulario (txt)**:", texto_formulario)
+st.write("**Tratamiento (txt)**:", texto_tratamiento)
+
 
 # Iniciar el estado de la sesión
 if "messages" not in st.session_state:
