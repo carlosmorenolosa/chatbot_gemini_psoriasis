@@ -42,6 +42,8 @@ st.title("¿Tiene alguna consulta sobre el tratamiento? ¡Cuéntanos!")
 
 params = st.query_params
 
+
+
 # 1) Recoger las URLs de los .txt que nos pasa Flask
 txt_formulario_url_list = params.get("txt_formulario_url", [])
 txt_tratamiento_url_list = params.get("txt_tratamiento_url", [])
@@ -53,17 +55,23 @@ txt_tratamiento_url = txt_tratamiento_url_list[0] if txt_tratamiento_url_list el
 texto_formulario = ""
 texto_tratamiento = ""
 
+st.write("Query params:", params)
+st.write("Valor de txt_formulario_url_list:", txt_formulario_url_list)
+st.write("Valor de txt_tratamiento_url_list:", txt_tratamiento_url_list)
+st.write("Valor final de txt_formulario_url:", txt_formulario_url)
+st.write("Valor final de txt_tratamiento_url:", txt_tratamiento_url)
+
 
 # 3) Si tenemos una URL de formulario, lo descargamos
 if txt_formulario_url:
+    st.write("Descargando formulario desde:", txt_formulario_url)
     try:
-        resp = requests.get(txt_formulario_url)
-        if resp.status_code == 200:
-            texto_formulario = resp.text
-        else:
-            st.warning(f"No se pudo descargar el formulario. Status: {resp.status_code}")
+        resp_form = requests.get(txt_formulario_url)
+        st.write("form status code:", resp_form.status_code)
+        st.write("form headers:", resp_form.headers)
+        st.write("form content snippet:", resp_form.text[:300])
     except Exception as e:
-        st.error(f"Error descargando el formulario: {e}")
+        st.error(f"Error al descargar formulario: {e}")
 
 # 4) Si tenemos una URL de tratamiento, lo descargamos
 if txt_tratamiento_url:
@@ -75,6 +83,7 @@ if txt_tratamiento_url:
             st.warning(f"No se pudo descargar el tratamiento. Status: {resp.status_code}")
     except Exception as e:
         st.error(f"Error descargando el tratamiento: {e}")
+
 
 # Debug
 st.write("**Formulario (txt)**:", texto_formulario)
