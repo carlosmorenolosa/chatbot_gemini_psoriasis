@@ -84,9 +84,9 @@ if "messages" not in st.session_state:
 st.markdown("### Historial de Conversación:")
 for i, msg in enumerate(st.session_state["messages"]):
     if msg["role"] == "user":
-        message(msg["content"], is_user=True, key=f"user_{i}", avatar_style="")
+        message(msg["content"], is_user=True, key=f"user_{i}", avatar_style="transparent")
     else:
-        message(msg["content"], is_user=False, key=f"assistant_{i}", avatar_style="")
+        message(msg["content"], is_user=False, key=f"assistant_{i}", avatar_style="transparent")
 
 # Inicializar el estado para el campo de entrada si no está definido
 if "user_input" not in st.session_state:
