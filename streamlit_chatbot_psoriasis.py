@@ -55,11 +55,6 @@ txt_tratamiento_url = txt_tratamiento_url_list[0] if txt_tratamiento_url_list el
 texto_formulario = ""
 texto_tratamiento = ""
 
-st.write("Query params:", params)
-st.write("Valor de txt_formulario_url_list:", txt_formulario_url_list)
-st.write("Valor de txt_tratamiento_url_list:", txt_tratamiento_url_list)
-st.write("Valor final de txt_formulario_url:", txt_formulario_url)
-st.write("Valor final de txt_tratamiento_url:", txt_tratamiento_url)
 
 
 # 3) Si tenemos una URL de formulario, lo descargamos
@@ -85,9 +80,7 @@ if txt_tratamiento_url:
         st.error(f"Error descargando el tratamiento: {e}")
 
 
-# Debug
-st.write("**Formulario (txt)**:", texto_formulario)
-st.write("**Tratamiento (txt)**:", texto_tratamiento)
+
 
 
 # Iniciar el estado de la sesión
