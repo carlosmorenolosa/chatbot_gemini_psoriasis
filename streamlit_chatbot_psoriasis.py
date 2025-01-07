@@ -40,20 +40,6 @@ model = genai.GenerativeModel("gemini-1.5-flash-latest")
 
 st.title("¿Tiene alguna consulta sobre el tratamiento? ¡Cuéntanos!")
 
-st.markdown("""
-<style>
-/* Ocultar completamente el avatar */
-div[data-testid="stMessageAvatar"] {
-    visibility: hidden;  /* Esto oculta el ícono en lugar de eliminarlo */
-    width: 0px;  /* Elimina el espacio dejado por el ícono */
-    height: 0px;
-    margin: 0;
-    padding: 0;
-}
-</style>
-""", unsafe_allow_html=True)
-
-
 
 params = st.query_params
 
@@ -98,9 +84,9 @@ if "messages" not in st.session_state:
 st.markdown("### Historial de Conversación:")
 for i, msg in enumerate(st.session_state["messages"]):
     if msg["role"] == "user":
-        message(msg["content"], is_user=True, key=f"user_{i}", avatar_style="transparent")
+        message(msg["content"], is_user=True, key=f"user_{i}", avatar_style="")
     else:
-        message(msg["content"], is_user=False, key=f"assistant_{i}", avatar_style="transparent")
+        message(msg["content"], is_user=False, key=f"assistant_{i}", avatar_style="")
 
 # Inicializar el estado para el campo de entrada si no está definido
 if "user_input" not in st.session_state:
