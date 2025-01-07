@@ -108,6 +108,8 @@ query = st.text_input(
     placeholder="Escriba aquí su mensaje..."
 )
 
+
+
 # Botón para enviar
 if st.button("Enviar"):
     if query.strip():  # Verificar que el campo no esté vacío
