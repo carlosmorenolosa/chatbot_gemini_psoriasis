@@ -46,29 +46,30 @@ from streamlit_chat import message
 # -- INYECTAR ESTILOS PERSONALIZADOS --
 st.markdown("""
 <style>
-/* Ocultamos el avatar de los mensajes (tanto de usuario como del bot) */
-div[data-testid="stMessageAvatar"] {
+/* Ocultamos los íconos de los mensajes */
+[data-testid="stMessage"] > div:first-child {
     display: none !important;
 }
 
-/* Cambiamos el fondo y bordes del cuadro de mensaje */
-div[data-testid="stMessage"] {
+/* Estilo general del cuadro de mensaje */
+[data-testid="stMessage"] {
     border-radius: 10px;
     padding: 10px;
     margin: 10px 0;
 }
 
-/* Fondo distinto para el mensaje del usuario */
-div[data-testid="stMessage"][data-message-type="user"] {
-    background-color: #DCF8C6; /* color estilo "WhatsApp" para usuario */
+/* Mensaje del usuario */
+[data-testid="stMessage"][data-message-type="user"] {
+    background-color: #DCF8C6;  /* Color verde para el usuario */
 }
 
-/* Fondo distinto para el mensaje del bot */
-div[data-testid="stMessage"][data-message-type="bot"] {
-    background-color: #F1F0F0; /* gris clarito para el bot */
+/* Mensaje del bot */
+[data-testid="stMessage"][data-message-type="bot"] {
+    background-color: #F1F0F0;  /* Gris claro para el bot */
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 params = st.query_params
