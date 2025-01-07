@@ -40,6 +40,20 @@ model = genai.GenerativeModel("gemini-1.5-flash-latest")
 
 st.title("¿Tiene alguna consulta sobre el tratamiento? ¡Cuéntanos!")
 
+st.markdown("""
+<style>
+/* Ocultar completamente el avatar */
+div[data-testid="stMessageAvatar"] {
+    visibility: hidden;  /* Esto oculta el ícono en lugar de eliminarlo */
+    width: 0px;  /* Elimina el espacio dejado por el ícono */
+    height: 0px;
+    margin: 0;
+    padding: 0;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
 
 params = st.query_params
 
