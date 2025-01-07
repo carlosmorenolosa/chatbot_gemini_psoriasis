@@ -44,12 +44,8 @@ params = st.query_params
 
 
 
-# 1) Recoger las URLs de los .txt que nos pasa Flask
-txt_formulario_url_list = params.get("txt_formulario_url", [])
-txt_tratamiento_url_list = params.get("txt_tratamiento_url", [])
-
-txt_formulario_url = txt_formulario_url_list[0] if txt_formulario_url_list else None
-txt_tratamiento_url = txt_tratamiento_url_list[0] if txt_tratamiento_url_list else None
+txt_formulario_url = "https://iaenpsoriasis.pythonanywhere.com/static/juanjo_amoros_form.txt"
+txt_tratamiento_url = "https://iaenpsoriasis.pythonanywhere.com/static/juanjo_amoros_tratamiento.txt"
 
 # 2) Definimos dos variables para el contenido
 texto_formulario = ""
