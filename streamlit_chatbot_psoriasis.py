@@ -40,37 +40,6 @@ model = genai.GenerativeModel("gemini-1.5-flash-latest")
 
 st.title("¿Tiene alguna consulta sobre el tratamiento? ¡Cuéntanos!")
 
-import streamlit as st
-from streamlit_chat import message
-
-# -- INYECTAR ESTILOS PERSONALIZADOS --
-st.markdown("""
-<style>
-/* Ocultamos los íconos de los mensajes */
-[data-testid="stMessage"] > div:first-child {
-    display: none !important;
-}
-
-/* Estilo general del cuadro de mensaje */
-[data-testid="stMessage"] {
-    border-radius: 10px;
-    padding: 10px;
-    margin: 10px 0;
-}
-
-/* Mensaje del usuario */
-[data-testid="stMessage"][data-message-type="user"] {
-    background-color: #DCF8C6;  /* Color verde para el usuario */
-}
-
-/* Mensaje del bot */
-[data-testid="stMessage"][data-message-type="bot"] {
-    background-color: #F1F0F0;  /* Gris claro para el bot */
-}
-</style>
-""", unsafe_allow_html=True)
-
-
 
 params = st.query_params
 
@@ -115,9 +84,9 @@ if "messages" not in st.session_state:
 st.markdown("### Historial de Conversación:")
 for i, msg in enumerate(st.session_state["messages"]):
     if msg["role"] == "user":
-        message(msg["content"], is_user=True, key=f"user_{i}")
+        message(msg["content"], is_user=True, key=f"user_{i}", avatar_style="")
     else:
-        message(msg["content"], is_user=False, key=f"assistant_{i}")
+        message(msg["content"], is_user=False, key=f"assistant_{i}", avatar_style="")
 
 # Inicializar el estado para el campo de entrada si no está definido
 if "user_input" not in st.session_state:
