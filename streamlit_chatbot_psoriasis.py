@@ -55,12 +55,8 @@ texto_tratamiento = ""
 
 # 3) Si tenemos una URL de formulario, lo descargamos
 if txt_formulario_url:
-    st.write("Descargando formulario desde:", txt_formulario_url)
     try:
         resp_form = requests.get(txt_formulario_url)
-        st.write("form status code:", resp_form.status_code)
-        st.write("form headers:", resp_form.headers)
-        st.write("form content snippet:", resp_form.text[:300])
     except Exception as e:
         st.error(f"Error al descargar formulario: {e}")
 
